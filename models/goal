@@ -1,0 +1,9 @@
+var mongoose     = require('mongoose');
+var Schema       = mongoose.Schema;
+
+var GoalSchema   = new Schema({
+  amt: Number,
+  EndDate: Date
+});
+
+module.exports = mongoose.model('Goal', GoalSchema);
