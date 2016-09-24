@@ -23,6 +23,8 @@ app.use(session({
 var user = require('./routes/user');
 app.use('/api/user', user);
 
+var goal = require('./routes/creategoal');
+app.use('/api/goal', goal);
 
 app.listen(port);
 console.log('API running on port ' + port);
