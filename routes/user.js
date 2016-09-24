@@ -13,7 +13,7 @@ router.get('/', function(req, res) {
         res.json({
             user: req.session.user,
 			customerid: req.session.customerid,
-			accountid: req.session.accountid
+			accountid: req.session.accountid,
             success: 1
         })
     } else {
