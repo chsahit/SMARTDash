@@ -6,11 +6,14 @@ var request = require('request');
 
 // Models
 var User = require('../models/user');
+var access = require('../access');
 
 router.get('/', function(req, res) {
     if (req.session.user) {
         res.json({
             user: req.session.user,
+			customerid: req.session.customerid,
+			accountid: req.session.accountid
             success: 1
         })
     } else {
@@ -35,7 +38,8 @@ router.route('/register').post(function(req, res) {
 	              password: hash,
 	  			  firstname: req.body.firstname,
 	  			  lastname: req.body.lastname,
-				  customerid: custbody._id
+				  customerid: custbody.objectCreated._id,
+				  accountid: body.objectCreated._id
 	          });
 			  user.save(function(err) {
 	              if (err) {
@@ -67,6 +71,8 @@ router.route('/login').post(function(req, res) {
                     req.session.regenerate(function() {
                         req.session.user = {
                             username: user.username,
+							customerid: user.customerid,
+							accountid: user.accountid,
                             _id: user._id,
                         };
 						res.json({
