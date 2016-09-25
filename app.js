@@ -20,6 +20,11 @@ app.use(session({
   secret: 'm1qewbBd2E'
 }));
 
+app.get('/', function(req, res) {
+  res.sendFile(__dirname + '/SmartDashResource/Project/index.html');
+});
+app.use('/', express.static(__dirname + '/SmartDashResource/Project/'));
+
 var user = require('./routes/user');
 app.use('/api/user', user);
 
