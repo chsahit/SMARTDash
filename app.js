@@ -26,5 +26,8 @@ app.use('/api/user', user);
 var goal = require('./routes/creategoal');
 app.use('/api/goal', goal);
 
+var breakdown = require('./routes/breakdown');
+app.use('/api/breakdown', breakdown);
+
 app.listen(port);
 console.log('API running on port ' + port);
