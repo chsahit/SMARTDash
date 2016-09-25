@@ -8,7 +8,7 @@ router.route('/creategoal').post(function(req, res) {
     if (req.body.amt && req.body.EndDate) {
         var goal = new Goal({
             amt: req.body.amt,
-            EndDate: req.body.EndDate,
+            days: req.body.days,
         });
         goal.save(function(err) {
             if (err) {
@@ -30,5 +30,6 @@ router.route('/creategoal').post(function(req, res) {
         });
     }
 });
+
 
 module.exports = router
