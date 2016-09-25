@@ -266,9 +266,15 @@
                       </div>
                       <div class="col-lg-5">
                           <div class="content-panel">
-							  <h4><i class="fa fa-angle-right"></i> Safe to Spend</h4>
-                              <div class="panel-body text-center">
-                                  <canvas id="safetospend" height="300" width="400"></canvas>
+							  <h4><i class="fa fa-angle-right"></i> What is your money doing Today!</h4>
+                              <div class="text-center">
+                                <h2 id='parsedTotalBalance'></h2>
+                                <h3 id='parsedDailyCosts'></h3>
+                                <h4 id='parsedSavingCosts'></h4>
+                              </div>
+                              <div class="text-center">
+                              ___________________________<br>
+                              <h1 id='parsedTotalToSpend'></h1>
                               </div>
                           </div>
                       </div>
@@ -350,11 +356,13 @@
     </script>
   
     <script type="text/javascript">
+        var dayCost = 0;
         $.getJSON("/api/breakdown", function( resp ) {
         var oneDay = 24*60*60*1000;
         var parsedJSON = JSON.parse(resp.data);
         var total = 0;
         var total_week = 0;
+
         for(var i=0; i<parsedJSON.length; i++){
             total += parsedJSON[i].payment_amount;
             var dateCurrent = new Date();
@@ -363,11 +371,40 @@
             if (diff <= 7){
                 total_week += parsedJSON[i].payment_amount;
             }
+            if (diff == 0){
+                dayCost += parsedJSON[i].payment_amount;
+            }
 
         }
+
+        $.getJSON("/api/assets", function( resp ) {
+        var parsedJSON = JSON.parse(resp.data);
+        var total_assets = 0;
+        for(var i=0; i<parsedJSON.length; i++) {
+            total_assets += parsedJSON[i].balance;
+        }
+        var unparsedAssets = total_assets.toFixed(2).toString();
+        var parsedAssets = "";
+        for (var i=unparsedAssets.length-1; i>-1; i--) {
+            parsedAssets = unparsedAssets[i] + parsedAssets;
+            if ((i)%3 == 0 && i != 0 && i != unparsedAssets.length - 3) {
+                parsedAssets = "," + parsedAssets;
+            }
+        }
+
+        //get saving goals
+        var saving = 2.00;
+        var spendingMoney = total_assets - dayCost - 2;
+        $('#parsedTotalToSpend').text("$" + spendingMoney.toFixed(2).toString() + " left!");
+        $('#parsedTotalBalance').text("$" + parsedAssets + " Balance");
+        $('#parsedDailyCosts').text("- $" + dayCost.toFixed(2).toString() + " daily costs");
+        $('#parsedSavingCosts').text("- $" + "2.00" + " to save for goals");
+        
+    });
         $('#parsedTotalCosts').text("$" + total.toFixed(2).toString());
         $('#parsedWeekCosts').text("$" + total_week.toFixed(2).toString());        
         });
+
     </script>
 
   </body>

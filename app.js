@@ -37,5 +37,8 @@ app.use('/api/progress', progress);
 var breakdown = require('./routes/breakdown');
 app.use('/api/breakdown', breakdown);
 
+var assets = require('./routes/assets');
+app.use('/api/assets', assets);
+
 app.listen(port);
 console.log('API running on port ' + port);
