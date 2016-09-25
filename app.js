@@ -4,7 +4,7 @@ var bodyParser = require('body-parser');
 var morgan = require('morgan');
 
 var app = express();
-var port = 8080
+var port = 8081
 
 var mongoose = require('mongoose');
 var mongo_address = "127.0.0.1";
@@ -21,9 +21,9 @@ app.use(session({
 }));
 
 app.get('/', function(req, res) {
-  res.sendFile(__dirname + '/SmartDashResource/Project/index.html');
+  res.sendFile(__dirname + '/smartDashfinalapp/index.html');
 });
-app.use('/', express.static(__dirname + '/SmartDashResource/Project/'));
+app.use('/', express.static(__dirname + '/smartDashfinalapp/'));
 
 var user = require('./routes/user');
 app.use('/api/user', user);

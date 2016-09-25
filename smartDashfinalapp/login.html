@@ -34,21 +34,21 @@
 	  <div id="login-page">
 	  	<div class="container">
 	  	
-		      <form class="form-login" action="index.html">
+		      <form class="form-login">
 		        <h2 class="form-login-heading">sign in now</h2>
 		        <div class="login-wrap">
-		            <input type="text" class="form-control" placeholder="User ID" autofocus>
+		            <input type="text" id="username" class="form-control" placeholder="User ID" autofocus>
 		            <br>
-		            <input type="password" class="form-control" placeholder="Password">
+		            <input type="password" id="password" class="form-control" placeholder="Password">
 		            <label class="checkbox">
 		                <span class="pull-right">
 		                    <a data-toggle="modal" href="login.html#myModal"> Forgot Password?</a>
 		
 		                </span>
 		            </label>
-		            <button class="btn btn-theme btn-block" href="index.html" type="submit"><i class="fa fa-lock"></i> SIGN IN</button>
+                    <div class="alert alert-danger hidden" id="error"></div>
+		            <button class="btn btn-theme btn-block" type="button" id="login-button"><i class="fa fa-lock"></i> SIGN IN</button>
 		            <hr>
-		            
 		            <div class="registration">
 		                Don't have an account yet?<br/>
 		                <a class="" href="#">
@@ -94,6 +94,24 @@
     <script type="text/javascript" src="assets/js/jquery.backstretch.min.js"></script>
     <script>
         $.backstretch("assets/img/login-bg.jpg", {speed: 500});
+        $( "#login-button" ).click(function() {
+            $.ajax({
+                  type: 'POST',
+                  url: "/api/user/login",
+                  data: {username:$('#username').val(),password:$('#password').val()},
+                  dataType: "json",
+                  success: function(resultData) { 
+                      console.log(resultData);
+                      if (resultData.success == 1){
+                          window.location = "/";
+                      }
+                      else{
+                          $("#error").removeClass('hidden');
+                          $('#error').text(resultData.message);
+                      }
+                  }
+            });
+        });
     </script>
 
 
