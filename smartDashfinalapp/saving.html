@@ -182,9 +182,15 @@
                 </ul>
                 <!--  notification end -->
             </div>
+        
             <div class="top-menu">
             	<ul class="nav pull-right top-menu">
                     <li><a class="logout" href="login.html">Logout</a></li>
+            	</ul>
+            </div>
+            <div class="top-menu">
+            	<ul class="nav pull-right top-menu">
+                    <li><a class="logout2" href="form.html">+</a></li>
             	</ul>
             </div>
         </header>
@@ -255,40 +261,31 @@
                               <div class="panel-body text-center">
                                   <canvas id="savingsstats" height="400" width="400"></canvas>
 								  	<script>
-										var moreNums = true;
-										var dataPoints = []
-										var sum = 0;
-										var lastIndex = 0;
+										dataPoints = []
 										vals = "";
-										index = 0;
+										i = 0;	
 										 $.get("http://localhost:8081/api/progress/progress", function(data, status){
 												vals = JSON.parse(JSON.stringify(data)).data;	
-												index = vals.indexOf(",", lastIndex);												
-												lastIndex = index;
-												index = vals.indexOf(",", lastIndex);												
-												lastIndex = index;
-											});
-											while(sum < 2) {
-												var index = vals.indexOf(",", lastIndex);
-												if(index == -1) {
-													moreNums = false;
+												console.log(vals);
+												while(i < vals.length - 2) {
+													console.log(vals.substring(i,i+2));
+													dataPoints.push(parseInt(vals.substring(i,i+2)));
+													console.log(dataPoints);
+													i += 3;
 												}
-												lastIndex = (lastIndex == 0) ? -1:lastIndex;
-												dataPoints.push(parseInt(vals.substring(lastIndex+1, index)));
-												lastIndex = index;
-												sum++;
-											}
-											console.log(vals);
+												var ctx = document.getElementById("savingsstats").getContext("2d");
+												console.log(dataPoints);
+												makeChart(dataPoints, ctx);
+											});											
 										
-										
-										var ctx = document.getElementById("savingsstats").getContext("2d");
-										var myChart = new Chart(ctx, {
+									function makeChart(dataPointParam, contex) {	
+										var myChart = new Chart(contex, {
 											type: 'line',
 											data: {
 												labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
 												datasets: [{
 													label: 'Deposits over time',
-													data: [12, 19, 3, 5, 2, 3],
+													data: dataPointParam,
 													backgroundColor: [
 														'rgba(255, 99, 132, 0.2)',
 														'rgba(54, 162, 235, 0.2)',
@@ -317,8 +314,13 @@
 													}]
 												}
 											}
+										
 										});
+									}	
 									</script>
+                                  <h3 id='parsedAmount'></h3>
+                                  <br>
+                                  <h3 id='parsedTotal'></h3>
                               </div>
                           </div>
                       </div>
@@ -399,6 +401,23 @@
             var to = $("#" + id).data("to");
             console.log('nav ' + nav + ' to: ' + to.month + '/' + to.year);
         }
+    </script>
+    
+    <script type="application/javascript">
+        $.getJSON("/api/saving", function( resp ) {
+            var data = (resp.data);
+            console.log(data);
+            var dataLen = data.length;
+            var amtString = "You are currently saving up for " + dataLen + " items."
+            var total = 0;
+            for (var i = 0; i < dataLen; i++) {
+                total += resp.data[i].amt;
+                console.log(resp.data[i].days);
+            var totString = "You are currently saving up for $" + total + " worth."
+        $('#parsedAmount').text(amtString);
+        $('#parsedTotal').text(totString);
+    }
+    });
     </script>
   
 
