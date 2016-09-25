@@ -31,6 +31,9 @@ app.use('/api/user', user);
 var goal = require('./routes/creategoal');
 app.use('/api/goal', goal);
 
+var progress = require('./routes/progress');
+app.use('/api/progress', progress);
+
 var breakdown = require('./routes/breakdown');
 app.use('/api/breakdown', breakdown);
 
