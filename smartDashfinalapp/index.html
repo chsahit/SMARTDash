@@ -385,18 +385,26 @@
         var parsedAssets = "";
         for (var i=unparsedAssets.length-1; i>-1; i--) {
             parsedAssets = unparsedAssets[i] + parsedAssets;
-            if ((i)%3 == 0 && i != 0 && i != unparsedAssets.length - 3) {
+            if ((i)%3 == 0 && i != 0 && i != unparsedAssets.length - 2) {
                 parsedAssets = "," + parsedAssets;
             }
         }
 
         //get saving goals
-        var saving = 2.00;
+        var avgSave = 0;
+		$.getJSON("/api/saving", function( resp ) {
+			var parsedJSON = JSON.parse(resp.data);
+			for (var i = 0; i < parsedJSON.length; i++) {
+				avgSave += parsedJSON[i].amt;
+			}
+			avgSave = avgSave/7;
+		})
+		
         var spendingMoney = total_assets - dayCost - 2;
         $('#parsedTotalToSpend').text("$" + spendingMoney.toFixed(2).toString() + " left!");
         $('#parsedTotalBalance').text("$" + parsedAssets + " Balance");
         $('#parsedDailyCosts').text("- $" + dayCost.toFixed(2).toString() + " daily costs");
-        $('#parsedSavingCosts').text("- $" + "2.00" + " to save for goals");
+        $('#parsedSavingCosts').text("- $" + avgSave.toFixed(2).toString() + " to save for goals");
         
     });
         $('#parsedTotalCosts').text("$" + total.toFixed(2).toString());
