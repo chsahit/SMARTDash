@@ -20,6 +20,11 @@ app.use(session({
   secret: 'm1qewbBd2E'
 }));
 
+app.get('/', function(req, res) {
+  res.sendFile(__dirname + '/SmartDashResource/Project/index.html');
+});
+app.use('/', express.static(__dirname + '/SmartDashResource/Project/'));
+
 var user = require('./routes/user');
 app.use('/api/user', user);
 
@@ -28,6 +33,9 @@ app.use('/api/goal', goal);
 
 var progress = require('./routes/progress');
 app.use('/api/progress', progress);
+
+var breakdown = require('./routes/breakdown');
+app.use('/api/breakdown', breakdown);
 
 app.listen(port);
 console.log('API running on port ' + port);
