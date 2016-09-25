@@ -259,7 +259,9 @@
                           <div class="content-panel">
                             <h4><i class="fa fa-angle-right"></i> Stats</h4>
                               <div class="panel-body text-center">
-                                  <canvas id="savingsstats" height="400" width="400"></canvas>
+                                  <h3 id='parsedAmount'></h3>
+                                  <br>
+                                  <h3 id='parsedTotal'></h3>
                               </div>
                           </div>
                       </div>
@@ -340,6 +342,23 @@
             var to = $("#" + id).data("to");
             console.log('nav ' + nav + ' to: ' + to.month + '/' + to.year);
         }
+    </script>
+    
+    <script type="application/javascript">
+        $.getJSON("/api/saving", function( resp ) {
+            var data = (resp.data);
+            console.log(data);
+            var dataLen = data.length;
+            var amtString = "You are currently saving up for " + dataLen + " items."
+            var total = 0;
+            for (var i = 0; i < dataLen; i++) {
+                total += resp.data[i].amt;
+                console.log(resp.data[i].days);
+            var totString = "You are currently saving up for $" + total + " worth."
+        $('#parsedAmount').text(amtString);
+        $('#parsedTotal').text(totString);
+    }
+    });
     </script>
   
 
