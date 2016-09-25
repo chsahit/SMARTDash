@@ -233,51 +233,65 @@
       *********************************************************************************************************************************************************** -->
       <!--main content start-->
       <section id="main-content">
-          <section class="wrapper">
-          <h3><i class="fa fa-angle-right"></i> Financial Overview </h3>
-              <!-- page start-->
-              <div class="tab-pane" id="chartjs">
-                  <div class="row mt">
-                      <div class="col-lg-10">
-                          <div class="content-panel">
-							  <h4><i class="fa fa-angle-right"></i> Spending </h4>
-                              <div class="panel-body text-center">
-                                  <canvas id="spending" height="300" width="400"></canvas>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-                  <div class="row mt">
-                      <div class="col-lg-5">
-                          <div class="content-panel">
-							  <h4><i class="fa fa-angle-right"></i> Totals </h4>
-                              <div class="text-center">
-                                  <h2> Total Expenses</h2>
-								  <h3 id='parsedTotalCosts'></h3>
-                                  ___________________________
-                                  <h2> From this Week</h2>
-                                  <h3 id='parsedWeekCosts'></h3>
-                              </div>
-                              <div class="panel-body text-center">
-                              </div>
-                          </div>
-                      </div>
-                      <div class="col-lg-5">
-                          <div class="content-panel">
-							  <h4><i class="fa fa-angle-right"></i> What is your money doing Today!</h4>
-                              <div class="text-center">
-                                <h2 id='parsedTotalBalance'></h2>
-                                <h3 id='parsedDailyCosts'></h3>
-                                <h4 id='parsedSavingCosts'></h4>
-                              </div>
-                              <div class="text-center">
-                              ___________________________<br>
-                              <h1 id='parsedTotalToSpend'></h1>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
+<! -- MODALS -->
+      				<div class="showback">
+      					<h4><i class="fa fa-angle-right"></i> Modal Example</h4>
+						<!-- Button trigger modal -->
+						<button class="btn btn-success btn-lg" data-toggle="modal" data-target="#myModal">
+						  Create Goal
+						</button>
+						
+						<!-- Modal -->
+						<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+						  <div class="modal-dialog">
+						    <div class="modal-content">
+						      <div class="modal-header">
+						        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						        <h4 class="modal-title" id="myModalLabel"></h4>
+						      </div>
+						      <div class="modal-body">
+						       <form class="form-horizontal">
+<fieldset>
+
+<!-- Form Name -->
+<legend></legend>
+
+<!-- Text input-->
+<div class="container2">
+  
+  <h2><small></small></h2>
+  
+  <form>
+    
+    <div class="group">      
+      <input type="text" required>
+      <span class="highlight"></span>
+      <span class="bar"></span>
+      <label>I want to save</label>
+    </div>
+      
+    <div class="group">      
+      <input type="text" required>
+      <span class="highlight"></span>
+      <span class="bar"></span>
+      <label>By</label>
+    </div>
+    
+  </form>
+      
+  
+</div>
+
+						      </div>
+						      <div class="modal-footer">
+						        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						        <button type="button" class="btn btn-primary">Save changes</button>
+						      </div>
+						    </div>
+						  </div>
+						</div>      				
+      				</div><!-- /showback -->
+      </section>    
               <!-- page end-->
           </section>
           <!--main component comes from chartsjs where it renders each chart type-->
@@ -353,57 +367,6 @@
         }
     </script>
   
-    <script type="text/javascript">
-        var dayCost = 0;
-        $.getJSON("/api/breakdown", function( resp ) {
-        var oneDay = 24*60*60*1000;
-        var parsedJSON = JSON.parse(resp.data);
-        var total = 0;
-        var total_week = 0;
-
-        for(var i=0; i<parsedJSON.length; i++){
-            total += parsedJSON[i].payment_amount;
-            var dateCurrent = new Date();
-            var dateThen = new Date(parsedJSON[i].payment_date);
-            var diff = Math.round(Math.abs(dateThen.getTime() - dateCurrent.getTime())/oneDay);
-            if (diff <= 7){
-                total_week += parsedJSON[i].payment_amount;
-            }
-            if (diff == 0){
-                dayCost += parsedJSON[i].payment_amount;
-            }
-
-        }
-
-        $.getJSON("/api/assets", function( resp ) {
-        var parsedJSON = JSON.parse(resp.data);
-        var total_assets = 0;
-        for(var i=0; i<parsedJSON.length; i++) {
-            total_assets += parsedJSON[i].balance;
-        }
-        var unparsedAssets = total_assets.toFixed(2).toString();
-        var parsedAssets = "";
-        for (var i=unparsedAssets.length-1; i>-1; i--) {
-            parsedAssets = unparsedAssets[i] + parsedAssets;
-            if ((i)%3 == 0 && i != 0 && i != unparsedAssets.length - 3) {
-                parsedAssets = "," + parsedAssets;
-            }
-        }
-
-        //get saving goals
-        var saving = 2.00;
-        var spendingMoney = total_assets - dayCost - 2;
-        $('#parsedTotalToSpend').text("$" + spendingMoney.toFixed(2).toString() + " left!");
-        $('#parsedTotalBalance').text("$" + parsedAssets + " Balance");
-        $('#parsedDailyCosts').text("- $" + dayCost.toFixed(2).toString() + " daily costs");
-        $('#parsedSavingCosts').text("- $" + "2.00" + " to save for goals");
-        
-    });
-        $('#parsedTotalCosts').text("$" + total.toFixed(2).toString());
-        $('#parsedWeekCosts').text("$" + total_week.toFixed(2).toString());        
-        });
-
-    </script>
 
   </body>
 </html>
