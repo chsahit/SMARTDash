@@ -59,7 +59,7 @@
                             <li>
                                 <a href="index.html#">
                                     <div class="task-info">
-                                        <div class="desc">DashGum Admin Panel</div>
+                                        <div class="desc">Saving Progress 1</div>
                                         <div class="percent">40%</div>
                                     </div>
                                     <div class="progress progress-striped">
@@ -72,7 +72,7 @@
                             <li>
                                 <a href="index.html#">
                                     <div class="task-info">
-                                        <div class="desc">Database Update</div>
+                                        <div class="desc">Saving Progress 2</div>
                                         <div class="percent">60%</div>
                                     </div>
                                     <div class="progress progress-striped">
@@ -85,7 +85,7 @@
                             <li>
                                 <a href="index.html#">
                                     <div class="task-info">
-                                        <div class="desc">Product Development</div>
+                                        <div class="desc">Saving Progress 3</div>
                                         <div class="percent">80%</div>
                                     </div>
                                     <div class="progress progress-striped">
@@ -98,7 +98,7 @@
                             <li>
                                 <a href="index.html#">
                                     <div class="task-info">
-                                        <div class="desc">Payments Sent</div>
+                                        <div class="desc">Saving Progress 4</div>
                                         <div class="percent">70%</div>
                                     </div>
                                     <div class="progress progress-striped">
@@ -209,12 +209,7 @@
                       </a>
                   </li>
 
-                  <li class="mt">
-                      <a class="dcjq-parent" href="index.html">
-                          <i class="fa fa-dashboard"></i>
-                          <span>BUDGET</span>
-                      </a>
-                  </li>
+
     
                   <li class="mt">
                       <a class="dcjq-parent" href="saving.html">
@@ -240,7 +235,42 @@
       *********************************************************************************************************************************************************** -->
       <!--main content start-->
       <section id="main-content">
-            <!--your component code goes here-->
+          <section class="wrapper">
+          <h3><i class="fa fa-angle-right"></i> Financial Overview </h3>
+              <!-- page start-->
+              <div class="tab-pane" id="chartjs">
+                  <div class="row mt">
+                      <div class="col-lg-10">
+                          <div class="content-panel">
+							  <h4><i class="fa fa-angle-right"></i> Spending </h4>
+                              <div class="panel-body text-center">
+                                  <canvas id="spending" height="300" width="400"></canvas>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="row mt">
+                      <div class="col-lg-5">
+                          <div class="content-panel">
+							  <h4><i class="fa fa-angle-right"></i> Totals </h4>
+                              <div class="panel-body text-center">
+                                  <canvas id="totals" height="300" width="400"></canvas>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="col-lg-5">
+                          <div class="content-panel">
+							  <h4><i class="fa fa-angle-right"></i> Safe to Spend</h4>
+                              <div class="panel-body text-center">
+                                  <canvas id="safetospend" height="300" width="400"></canvas>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <!-- page end-->
+          </section>
+          <!--main component comes from chartsjs where it renders each chart type-->
       </section>
          
 
@@ -248,7 +278,7 @@
       <!--footer start-->
       <footer class="site-footer">
           <div class="text-center">
-              2016 - MelchiMash
+              2016 - JJMMCSEA
               <a href="index.html#" class="go-top">
                   <i class="fa fa-angle-up"></i>
               </a>
@@ -277,26 +307,6 @@
     <script src="assets/js/sparkline-chart.js"></script>    
 	<script src="assets/js/zabuto_calendar.js"></script>	
 	
-	<script type="text/javascript">
-        $(document).ready(function () {
-        var unique_id = $.gritter.add({
-            // (string | mandatory) the heading of the notification
-            title: 'Welcome to Dashgum!',
-            // (string | mandatory) the text inside the notification
-            text: 'Hover me to enable the Close Button. You can hide the left sidebar clicking on the button next to the logo. Free version for <a href="http://blacktie.co" target="_blank" style="color:#ffd777">BlackTie.co</a>.',
-            // (string | optional) the image to display on the left
-            image: 'assets/img/ui-sam.jpg',
-            // (bool | optional) if you want it to fade out on its own or just sit there
-            sticky: true,
-            // (int | optional) the time you want it to be alive for before fading out
-            time: '',
-            // (string | optional) the class name you want to apply to that specific message
-            class_name: 'my-sticky-class'
-        });
-
-        return false;
-        });
-	</script>
 	
 	<script type="application/javascript">
         $(document).ready(function () {

@@ -2236,5 +2236,6 @@ label {
 .site-min-height {
     min-height: 900px;
 }
-
-
+.hidden {
+    display: none;
+}

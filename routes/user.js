@@ -23,7 +23,13 @@ router.get('/', function(req, res) {
         })
     }
 });
-
+router.get('/logout', function(req, res) {
+    req.session.destroy(function(err){
+        res.json({
+            success: 1
+        });
+    });
+});
 router.route('/register').post(function(req, res) {
     if (req.body.username && req.body.password && req.body.firstname && req.body.lastname) {
         var hash = bcrypt.hashSync(req.body.password, salt);
