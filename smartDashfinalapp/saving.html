@@ -21,8 +21,8 @@
     <link href="assets/css/style.css" rel="stylesheet">
     <link href="assets/css/style-responsive.css" rel="stylesheet">
 
-    <script src="assets/js/chart-master/Chart.js"></script>
-    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -254,6 +254,71 @@
                             <h4><i class="fa fa-angle-right"></i> Stats</h4>
                               <div class="panel-body text-center">
                                   <canvas id="savingsstats" height="400" width="400"></canvas>
+								  	<script>
+										var moreNums = true;
+										var dataPoints = []
+										var sum = 0;
+										var lastIndex = 0;
+										vals = "";
+										index = 0;
+										 $.get("http://localhost:8081/api/progress/progress", function(data, status){
+												vals = JSON.parse(JSON.stringify(data)).data;	
+												index = vals.indexOf(",", lastIndex);												
+												lastIndex = index;
+												index = vals.indexOf(",", lastIndex);												
+												lastIndex = index;
+											});
+											while(sum < 2) {
+												var index = vals.indexOf(",", lastIndex);
+												if(index == -1) {
+													moreNums = false;
+												}
+												lastIndex = (lastIndex == 0) ? -1:lastIndex;
+												dataPoints.push(parseInt(vals.substring(lastIndex+1, index)));
+												lastIndex = index;
+												sum++;
+											}
+											console.log(vals);
+										
+										
+										var ctx = document.getElementById("savingsstats").getContext("2d");
+										var myChart = new Chart(ctx, {
+											type: 'line',
+											data: {
+												labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+												datasets: [{
+													label: 'Deposits over time',
+													data: [12, 19, 3, 5, 2, 3],
+													backgroundColor: [
+														'rgba(255, 99, 132, 0.2)',
+														'rgba(54, 162, 235, 0.2)',
+														'rgba(255, 206, 86, 0.2)',
+														'rgba(75, 192, 192, 0.2)',
+														'rgba(153, 102, 255, 0.2)',
+														'rgba(255, 159, 64, 0.2)'
+													],
+													borderColor: [
+														'rgba(255,99,132,1)',
+														'rgba(54, 162, 235, 1)',
+														'rgba(255, 206, 86, 1)',
+														'rgba(75, 192, 192, 1)',
+														'rgba(153, 102, 255, 1)',
+														'rgba(255, 159, 64, 1)'
+													],
+													borderWidth: 1
+												}]
+											},
+											options: {
+												scales: {
+													yAxes: [{
+														ticks: {
+															beginAtZero:true
+														}
+													}]
+												}
+											}
+										});
+									</script>
                               </div>
                           </div>
                       </div>
@@ -277,7 +342,7 @@
   </section>
 
     <!-- js placed at the end of the document so the pages load faster -->
-    <script src="assets/js/jquery.js"></script>
+
     <script src="assets/js/jquery-1.8.3.min.js"></script>
     <script src="assets/js/bootstrap.min.js"></script>
     <script class="include" type="text/javascript" src="assets/js/jquery.dcjqaccordion.2.7.js"></script>
